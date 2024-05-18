@@ -41,9 +41,14 @@
     "typecheck": "tsc --noEmit",
     "release": "bumpp && nr publish"
   },
+  "dependencies": {
+    "@babel/parser": "^7.24.5",
+    "@babel/traverse": "^7.24.5"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^2.18.0",
     "@antfu/ni": "^0.21.12",
+    "@types/babel__traverse": "^7.20.5",
     "@types/node": "^20.12.12",
     "@types/vscode": "^1.89.0",
     "@vscode/vsce": "^2.26.1",
