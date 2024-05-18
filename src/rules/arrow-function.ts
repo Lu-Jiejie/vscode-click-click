@@ -4,7 +4,7 @@ import type { Context } from '../types'
 import { filterAsts } from '../ast'
 import { isUndefinedOrNull } from '../utils'
 
-export function parser(context: Context) {
+export default function parser(context: Context) {
   const { asts: _asts, document, cursorPosition, cursorOffset } = context
   const ast = filterAsts(_asts, 'JS', cursorOffset)[0]
 
@@ -35,3 +35,5 @@ export function parser(context: Context) {
 
   return newSelection
 }
+
+parser.title = 'arrow-function'

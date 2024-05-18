@@ -21,6 +21,7 @@ export function activate(ext: ExtensionContext) {
       if (e.kind !== TextEditorSelectionChangeKind.Mouse)
         return
 
+      // backup pre
       const _preTextEditor = preTextEditor
       const _preSelection = preSelection
       const _preClickTimestamp = preClickTimestamp
