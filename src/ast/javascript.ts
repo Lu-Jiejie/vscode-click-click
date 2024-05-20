@@ -1,5 +1,6 @@
 import { parse } from '@babel/parser'
 import type { Ast, Context } from '../types'
+import { log } from '../log'
 
 export async function parser(context: Context) {
   const { document, asts } = context
@@ -10,8 +11,8 @@ export async function parser(context: Context) {
   try {
     asts.push(getAstJS(document.getText(), 0))
   }
-  catch (error) {
-
+  catch (error: any) {
+    log(error)
   }
 }
 

@@ -12,9 +12,6 @@ export function activate(ext: ExtensionContext) {
   let preSelection: Selection | undefined
   let timer: NodeJS.Timeout | undefined
 
-  let backupSelection: Selection | undefined
-  let backupNewSelection: Selection | undefined
-
   window.showInformationMessage('Init')
 
   ext.subscriptions.push(
@@ -34,17 +31,6 @@ export function activate(ext: ExtensionContext) {
       preSelection = e.selections[0]
       preClickTimestamp = Date.now()
 
-      // restore selection if drag but trigger double click
-      if (backupSelection && backupNewSelection
-        && e.selections[0].start.isEqual(backupNewSelection.start)
-        && !e.selections[0].end.isEqual(e.selections[0].start)
-      ) {
-        e.textEditor.selection = backupSelection
-        return
-      }
-      backupSelection = undefined
-      backupNewSelection = undefined
-
       // check if the double click is valid
       if (
         Date.now() - _preClickTimestamp > DOUBLE_CLICK_INTERVAL
@@ -59,8 +45,6 @@ export function activate(ext: ExtensionContext) {
         const newSelection = await getNewSelection(e.textEditor.document, _preSelection, e.selections[0])
         if (!newSelection)
           return
-        backupSelection = e.textEditor.selection
-        backupNewSelection = newSelection
         e.textEditor.selection = newSelection
       }, TRIGGER_DELAY)
     }),

@@ -1,5 +1,6 @@
 import type { Position, Selection, TextDocument } from 'vscode'
 import type { ParseResult as AstJSRoot } from '@babel/parser'
+import type { Node } from '@babel/types'
 
 export interface Context {
   document: TextDocument
@@ -26,3 +27,5 @@ export interface AstHTML {
 }
 
 export type Ast = AstJS | AstHTML
+
+export type NodeType = Node['type']
