@@ -1,14 +1,14 @@
 import traverse from '@babel/traverse'
 import { Selection } from 'vscode'
-import { filterAsts } from '../ast'
-import type { Context, NodeType } from '../types'
+import { findAst } from '../ast'
+import type { Context } from '../types'
 import { isUndefinedOrNull } from '../utils'
 
 const operatorRegExp = /(=|\+=|-=|\*=|\/=|%=|\*\*=|&=|\|=|\^=|<<=|>>=|>>>=)/
 
 export default function parser(context: Context) {
   const { asts, cursorOffset, cursorPosition, document } = context
-  const ast = filterAsts(asts, 'JS', cursorOffset)[0]
+  const ast = findAst(asts, 'JS', cursorOffset)
 
   if (!ast)
     return

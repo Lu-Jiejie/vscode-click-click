@@ -1,12 +1,12 @@
 import { Selection } from 'vscode'
 import traverse from '@babel/traverse'
 import type { Context } from '../types'
-import { filterAsts } from '../ast'
+import { findAst } from '../ast'
 import { isUndefinedOrNull } from '../utils'
 
 export default function parser(context: Context) {
   const { asts, document, cursorOffset, selection } = context
-  const ast = filterAsts(asts, 'JS', cursorOffset)[0]
+  const ast = findAst(asts, 'JS', cursorOffset)
 
   if (!ast)
     return

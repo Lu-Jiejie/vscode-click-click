@@ -14,10 +14,10 @@ const parsers = [
 ]
 
 export function ruleParser(context: Context) {
-  for (const p of parsers) {
-    const newSelection = p(context)
+  for (const parser of parsers) {
+    const newSelection = parser(context)
     if (newSelection) {
-      log(`[${p.title}] ${newSelection.start.line}:${newSelection.start.character} => ${newSelection.end.line}:${newSelection.end.character}`)
+      log(`[${parser.title}] ${newSelection.start.line}:${newSelection.start.character} => ${newSelection.end.line}:${newSelection.end.character}`)
       return newSelection
     }
   }
