@@ -1,61 +1,24 @@
 import traverse from '@babel/traverse'
 import { Selection } from 'vscode'
 import { filterAsts } from '../ast'
-import type { Context, NodeType } from '../types'
+import type { Context } from '../types'
 import { isUndefinedOrNull } from '../utils'
 
-const expectedTypes: NodeType[] = [
-  'BlockStatement',
-  'TryStatement',
-  'CatchClause',
-  'DoWhileStatement',
-  'ForStatement',
-  'ForInStatement',
-  'ForOfStatement',
-  'WhileStatement',
-  'IfStatement',
-  'SwitchStatement',
-  'SwitchCase',
-  'FunctionDeclaration',
-  'ClassDeclaration',
-]
-
-const expectedKeywords = [
-  'try',
-  'catch',
-  'finally',
-  'do',
-  'for',
-  'while',
-  'if',
-  'else',
-  'switch',
-  'case',
-  'default',
-  'function',
-  'class',
-]
-
 export default function parser(context: Context) {
-  const { asts, cursorOffset, selection, document } = context
+  const { asts, cursorOffset, cursorPosition, document } = context
 
   const ast = filterAsts(asts, 'JS', cursorOffset)[0]
 
   if (!ast)
     return
-
-  if (!expectedKeywords.includes(document.getText(selection)))
+  if (!document.getWordRangeAtPosition(cursorPosition, /\{/))
     return
 
-  const selectionRelativeOffset = {
-    start: document.offsetAt(selection.start) - ast.start,
-    end: document.offsetAt(selection.end) - ast.start,
-  }
   const cursorRelativeOffset = cursorOffset - ast.start
   let newSelection: Selection | undefined
   traverse(ast.astRoot, {
     enter(path) {
-      if (!expectedTypes.includes(path.node.type))
+      if (path.node.type !== 'BlockStatement')
         return
 
       if (isUndefinedOrNull(path.node.start) || isUndefinedOrNull(path.node.end))
@@ -64,40 +27,14 @@ export default function parser(context: Context) {
       if (cursorRelativeOffset < path.node.start || cursorRelativeOffset > path.node.end)
         return path.skip()
 
-      /**
-       *         ▼
-       * if ... else ...
-       */
-      if (path.node.type === 'IfStatement'
-        && path.node.alternate
-        && path.node.consequent.end! < selectionRelativeOffset.start
-        && path.node.alternate.start! > selectionRelativeOffset.end
-      ) {
-        newSelection = new Selection(
-          selection.start,
-          document.positionAt(path.node.alternate.end! + ast.start),
-        )
-        path.stop()
-      }
-      else if (
-        path.node.type === 'TryStatement'
-        && path.node.finalizer
-        && (path.node.handler?.end ?? path.node.block.end!) < selectionRelativeOffset.start
-        && path.node.finalizer.start! > selectionRelativeOffset.end
-      ) {
-        newSelection = new Selection(
-          selection.start,
-          document.positionAt(path.node.finalizer.end! + ast.start),
-        )
-        path.stop()
-      }
-      else if (selection.start.isEqual(document.positionAt(path.node.start + ast.start))) {
-        newSelection = new Selection(
-          document.positionAt(path.node.start + ast.start),
-          document.positionAt(path.node.end + ast.start),
-        )
-        path.stop()
-      }
+      if (path.node.start !== cursorRelativeOffset)
+        return
+
+      newSelection = new Selection(
+        document.positionAt(path.node.start + ast.start),
+        document.positionAt(path.node.end + ast.start),
+      )
+      path.stop()
     },
   })
 

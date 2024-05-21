@@ -3,11 +3,13 @@ import type { Context } from '../types'
 
 import jsArrowFunctionParser from './js-arrow-function'
 import jsAssignParser from './js-assign'
+import jsBlockStatementParser from './js-block-statement'
 import jsBlockParser from './js-block'
 
 const parsers = [
   jsArrowFunctionParser,
   jsAssignParser,
+  jsBlockStatementParser,
   jsBlockParser,
 ]
 
