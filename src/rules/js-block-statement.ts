@@ -105,4 +105,4 @@ export default function parser(context: Context) {
   return newSelection
 }
 
-parser.title = 'js-block'
+parser.title = 'js-block-statement'

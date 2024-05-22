@@ -5,12 +5,14 @@ import jsArrowFunctionParser from './js-arrow-function'
 import jsAssignParser from './js-assign'
 import jsBlockStatementParser from './js-block-statement'
 import jsBlockParser from './js-block'
+import jsImportExportParser from './js-import-export'
 
 const parsers = [
   jsArrowFunctionParser,
   jsAssignParser,
   jsBlockStatementParser,
   jsBlockParser,
+  jsImportExportParser,
 ]
 
 export function ruleParser(context: Context) {
