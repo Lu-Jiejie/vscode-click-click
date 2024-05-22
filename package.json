@@ -1,20 +1,20 @@
 {
   "publisher": "LuJiejie",
-  "name": "click-click",
-  "displayName": "Click Click",
+  "name": "smart-select",
+  "displayName": "Smart Select",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@9.1.1",
   "description": "",
   "author": "Lu-Jiejie <Lu-Jiejie@outlook.com>",
   "license": "MIT",
-  "homepage": "https://github.com/Lu-Jiejie/click-click#readme",
+  "homepage": "https://github.com/Lu-Jiejie/vscode-smart-select#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Lu-Jiejie/click-click"
+    "url": "https://github.com/Lu-Jiejie/vscode-smart-select"
   },
   "bugs": {
-    "url": "https://github.com/Lu-Jiejie/click-click/issues"
+    "url": "https://github.com/Lu-Jiejie/vscode-smart-select/issues"
   },
   "categories": [
     "Other"
