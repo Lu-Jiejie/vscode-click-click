@@ -5,7 +5,7 @@
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@9.1.1",
-  "description": "",
+  "description": "Select the right code scope with double click.",
   "author": "Lu-Jiejie <Lu-Jiejie@outlook.com>",
   "license": "MIT",
   "homepage": "https://github.com/Lu-Jiejie/vscode-smart-select#readme",
