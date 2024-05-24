@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      node-html-parser:
-        specifier: ^6.1.13
-        version: 6.1.13
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^2.18.0
@@ -45,6 +41,9 @@ importers:
       esno:
         specifier: ^4.7.0
         version: 4.7.0
+      node-html-parser:
+        specifier: ^6.1.13
+        version: 6.1.13
       pnpm:
         specifier: ^9.1.1
         version: 9.1.1

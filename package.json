@@ -97,9 +97,6 @@
     "typecheck": "tsc --noEmit",
     "release": "bumpp && nr publish"
   },
-  "dependencies": {
-    "node-html-parser": "^6.1.13"
-  },
   "devDependencies": {
     "@antfu/eslint-config": "^2.18.0",
     "@antfu/ni": "^0.21.12",
@@ -112,6 +109,7 @@
     "bumpp": "^9.4.1",
     "eslint": "^9.2.0",
     "esno": "^4.7.0",
+    "node-html-parser": "^6.1.13",
     "pnpm": "^9.1.1",
     "rimraf": "^5.0.7",
     "tsup": "^8.0.2",
