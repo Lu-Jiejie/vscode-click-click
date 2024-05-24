@@ -1,3 +1,4 @@
+import { workspace } from 'vscode'
 import { log } from '../log'
 import type { Context } from '../types'
 
@@ -16,7 +17,13 @@ const parsers = [
 ]
 
 export function ruleParser(context: Context) {
+  const config = workspace.getConfiguration('smartSelect')
+  const rules = config.get<Record<string, boolean>>('rules')!
+
   for (const parser of parsers) {
+    if (rules[parser.title] === false)
+      continue
+
     const newSelection = parser(context)
     if (newSelection) {
       log(`[${parser.title}] ${newSelection.start.line}:${newSelection.start.character} => ${newSelection.end.line}:${newSelection.end.character}`)

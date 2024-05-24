@@ -1,7 +1,7 @@
 import { parse } from '@babel/parser'
 import type { AstJS, Context } from '../types'
 
-const expectedLanguageIds = ['javascript', 'typescript', 'javascriptreact', 'typescriptreact']
+export const expectedLanguageIds = ['javascript', 'typescript', 'javascriptreact', 'typescriptreact']
 
 export async function parser(context: Context) {
   const { document, asts } = context

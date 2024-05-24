@@ -30,6 +30,62 @@
   "activationEvents": [
     "onStartupFinished"
   ],
+  "contributes": {
+    "configuration": {
+      "properties": {
+        "smartSelect.doubleClickInterval": {
+          "type": "number",
+          "default": 300,
+          "description": "The interval of double click in milliseconds."
+        },
+        "smartSelect.triggerDelay": {
+          "type": "number",
+          "default": 150,
+          "description": "The delay of trigger in milliseconds to avoid conflict with normal selection."
+        },
+        "smartSelect.htmlLanguageIds": {
+          "type": "array",
+          "default": [
+            "html",
+            "vue",
+            "svelte"
+          ],
+          "description": "The language ids that should be treated as HTML."
+        },
+        "smartSelect.rules": {
+          "type": "object",
+          "description": "Toggles the rules of smart select.",
+          "properties": {
+            "js-arrow-function": {
+              "type": "boolean",
+              "default": true,
+              "description": "Select the whole arrow function."
+            },
+            "js-assign": {
+              "type": "boolean",
+              "default": true,
+              "description": "Select the whole assignment."
+            },
+            "js-block-statement": {
+              "type": "boolean",
+              "default": true,
+              "description": "Select the whole block statement by key words"
+            },
+            "js-block": {
+              "type": "boolean",
+              "default": true,
+              "description": "Select the whole block statement by brackets"
+            },
+            "js-import-export": {
+              "type": "boolean",
+              "default": true,
+              "description": "Select the whole import/export statement."
+            }
+          }
+        }
+      }
+    }
+  },
   "scripts": {
     "build": "tsup src/index.ts --external vscode",
     "dev": "nr build --watch",

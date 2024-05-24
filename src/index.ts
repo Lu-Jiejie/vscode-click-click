@@ -2,9 +2,7 @@ import type { ExtensionContext, Selection, TextEditor } from 'vscode'
 import { TextEditorSelectionChangeKind, window, workspace } from 'vscode'
 import { getNewSelection } from './handler'
 import { astCache } from './ast'
-
-const DOUBLE_CLICK_INTERVAL = 200
-const TRIGGER_DELAY = 150
+import { expectedLanguageIds as jsLanguageIds } from './ast/js'
 
 export function activate(ext: ExtensionContext) {
   let preClickTimestamp: number = 0
@@ -12,10 +10,11 @@ export function activate(ext: ExtensionContext) {
   let preSelection: Selection | undefined
   let timer: NodeJS.Timeout | undefined
 
-  window.showInformationMessage('Init')
-
   ext.subscriptions.push(
     window.onDidChangeTextEditorSelection((e) => {
+      const config = workspace.getConfiguration('smartSelect')
+
+      // shut down timer when selection changes
       clearTimeout(timer)
 
       if (e.kind !== TextEditorSelectionChangeKind.Mouse)
@@ -31,9 +30,12 @@ export function activate(ext: ExtensionContext) {
       preSelection = e.selections[0]
       preClickTimestamp = Date.now()
 
+      // check the languageId
+      if (![...jsLanguageIds, ...config.get<string[]>('htmlLanguageIds')!].includes(e.textEditor.document.languageId))
+        return
       // check if the double click is valid
       if (
-        Date.now() - _preClickTimestamp > DOUBLE_CLICK_INTERVAL
+        Date.now() - _preClickTimestamp > config.get<number>('doubleClickInterval')!
         || _preTextEditor !== e.textEditor
         || !_preSelection?.isEmpty
         || e.selections.length !== 1
@@ -46,12 +48,16 @@ export function activate(ext: ExtensionContext) {
         if (!newSelection)
           return
         e.textEditor.selection = newSelection
-      }, TRIGGER_DELAY)
+      }, config.get<number>('triggerDelay')!)
     }),
 
     // clear cache when file content changes
     workspace.onDidChangeTextDocument((e) => {
       astCache.delete(e.document.uri.fsPath)
+    }),
+
+    workspace.onDidChangeConfiguration((e) => {
+      e.affectsConfiguration('')
     }),
   )
 }

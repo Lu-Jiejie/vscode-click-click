@@ -1,14 +1,14 @@
 import type { Node } from 'node-html-parser'
 import { HTMLElement, parse } from 'node-html-parser'
+import { workspace } from 'vscode'
 import type { Ast, Context } from '../types'
 import { getAstJS } from './js'
 
-const expectedLanguageIds = ['html', 'vue', 'svelte']
-
 export function parser(context: Context) {
+  const config = workspace.getConfiguration('smartSelect')
   const { document, asts } = context
 
-  if (!expectedLanguageIds.includes(document.languageId))
+  if (!config.get<string[]>('htmlLanguageIds')!.includes(document.languageId))
     return
 
   asts.push(...getAstHTML(document.getText()))
