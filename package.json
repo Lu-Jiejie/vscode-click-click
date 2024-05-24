@@ -2,7 +2,7 @@
   "publisher": "LuJiejie",
   "name": "smart-select",
   "displayName": "Smart Select",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "packageManager": "pnpm@9.1.1",
   "description": "Select the right code scope with double click.",
